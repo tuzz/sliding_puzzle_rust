@@ -1,6 +1,7 @@
 use result::Result;
 use error::SlidingPuzzleError;
 
+#[derive(Debug)]
 pub struct SlidingPuzzle {
     tiles: Vec<u8>,
     rows: usize,
@@ -22,7 +23,7 @@ impl SlidingPuzzle {
 
     fn number_of_columns<T>(vec_2d: &Vec<Vec<T>>) -> Result<usize> {
         vec_2d.first().map(|row| row.len()).ok_or(
-            SlidingPuzzleError {}
+            SlidingPuzzleError::new("vector contains no rows")
         )
     }
 
