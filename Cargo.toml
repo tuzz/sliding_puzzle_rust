@@ -1,0 +1,20 @@
+[package]
+name = "sliding_puzzle"
+description = "TODO"
+version = "0.1.0"
+authors = ["Chris Patuzzo <chris@patuzzo.co.uk>"]
+documentation = "https://github.com/tuzz/sliding_puzzle"
+homepage = "https://github.com/tuzz/sliding_puzzle"
+repository = "https://github.com/tuzz/sliding_puzzle"
+readme = "README.md"
+license = "MIT"
+
+[dependencies]
+
+
+[dev-dependencies]
+bencher = "0.1.5"
+
+[[bench]]
+name = "sliding_puzzle_bench"
+harness = false
