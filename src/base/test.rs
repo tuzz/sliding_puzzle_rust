@@ -3,7 +3,7 @@ use super::*;
 type Subject = SlidingPuzzle;
 
 fn subject() -> Subject {
-    Subject::new(vec![
+    Subject::new(&vec![
         vec![1, 2, 0],
         vec![3, 4, 5],
         vec![6, 7, 8],
@@ -22,7 +22,7 @@ mod new {
 
     #[test]
     fn it_initializes_correctly_when_theres_a_single_row() {
-        let subject = Subject::new(vec![vec![1, 2, 0]]).unwrap();
+        let subject = Subject::new(&vec![vec![1, 2, 0]]).unwrap();
 
         assert_eq!(subject.tiles, vec![1, 2, 0]);
         assert_eq!(subject.rows, 1);
@@ -31,7 +31,7 @@ mod new {
 
     #[test]
     fn it_errors_if_the_puzzle_has_no_rows() {
-        let subject = Subject::new(vec![]);
+        let subject = Subject::new(&vec![]);
         assert!(subject.is_err());
 
         let error = subject.unwrap_err();
@@ -40,7 +40,7 @@ mod new {
 
     #[test]
     fn it_errors_if_the_puzzle_has_no_columns() {
-        let subject = Subject::new(vec![vec![]]);
+        let subject = Subject::new(&vec![vec![]]);
         assert!(subject.is_err());
 
         let error = subject.unwrap_err();
@@ -49,7 +49,7 @@ mod new {
 
     #[test]
     fn it_errors_if_the_puzzle_isnt_rectangular() {
-        let subject = Subject::new(vec![
+        let subject = Subject::new(&vec![
             vec![0, 1],
             vec![2],
         ]);
@@ -61,7 +61,7 @@ mod new {
 
     #[test]
     fn it_errors_if_the_puzzle_doesnt_contain_a_blank() {
-        let subject = Subject::new(vec![vec![1, 2]]);
+        let subject = Subject::new(&vec![vec![1, 2]]);
         assert!(subject.is_err());
 
         let error = subject.unwrap_err();
@@ -70,7 +70,7 @@ mod new {
 
     #[test]
     fn it_errors_if_the_puzzle_contains_more_than_one_blank() {
-        let subject = Subject::new(vec![vec![0], vec![0]]);
+        let subject = Subject::new(&vec![vec![0], vec![0]]);
         assert!(subject.is_err());
 
         let error = subject.unwrap_err();

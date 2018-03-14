@@ -9,12 +9,12 @@ pub struct SlidingPuzzle {
 }
 
 impl SlidingPuzzle {
-    pub fn new(vec_2d: Vec<Vec<u8>>) -> Result<Self> {
-        Self::must_be_rectangular(&vec_2d)?;
-        Self::must_not_be_empty(&vec_2d)?;
+    pub fn new(vec_2d: &Vec<Vec<u8>>) -> Result<Self> {
+        Self::must_be_rectangular(vec_2d)?;
+        Self::must_not_be_empty(vec_2d)?;
 
-        let rows = Self::number_of_rows(&vec_2d);
-        let columns = Self::number_of_columns(&vec_2d);
+        let rows = Self::number_of_rows(vec_2d);
+        let columns = Self::number_of_columns(vec_2d);
         let tiles = Self::flatten(vec_2d);
 
         Self::must_contain_one_blank(&tiles)?;
@@ -65,12 +65,12 @@ impl SlidingPuzzle {
         vec_2d.first().unwrap().len()
     }
 
-    fn flatten<T>(vec_2d: Vec<Vec<T>>) -> Vec<T> {
+    fn flatten<T: Copy>(vec_2d: &Vec<Vec<T>>) -> Vec<T> {
         let mut vec = Vec::new();
 
         for row in vec_2d {
             for element in row {
-                vec.push(element);
+                vec.push(*element);
             }
         }
 
