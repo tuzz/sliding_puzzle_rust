@@ -17,6 +17,8 @@ impl SlidingPuzzle {
         let columns = Self::number_of_columns(&vec_2d);
         let tiles = Self::flatten(vec_2d);
 
+        Self::must_contain_one_blank(&tiles)?;
+
         Ok(Self { tiles, rows, columns })
     }
 
@@ -40,6 +42,16 @@ impl SlidingPuzzle {
 
         if no_rows || no_columns {
             Err(SlidingPuzzleError::new("puzzle must not be empty"))
+        } else {
+            Ok(())
+        }
+    }
+
+    fn must_contain_one_blank(vec: &Vec<u8>) -> Result<()> {
+        let blanks = vec.iter().filter(|&&e| e == 0).count();
+
+        if blanks != 1 {
+            Err(SlidingPuzzleError::new("puzzle must contain a single blank"))
         } else {
             Ok(())
         }

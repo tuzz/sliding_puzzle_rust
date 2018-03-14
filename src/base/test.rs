@@ -58,4 +58,22 @@ mod new {
         let error = subject.unwrap_err();
         assert_eq!(error.description, "puzzle must be rectangular");
     }
+
+    #[test]
+    fn it_errors_if_the_puzzle_doesnt_contain_a_blank() {
+        let subject = Subject::new(vec![vec![1, 2]]);
+        assert!(subject.is_err());
+
+        let error = subject.unwrap_err();
+        assert_eq!(error.description, "puzzle must contain a single blank");
+    }
+
+    #[test]
+    fn it_errors_if_the_puzzle_contains_more_than_one_blank() {
+        let subject = Subject::new(vec![vec![0], vec![0]]);
+        assert!(subject.is_err());
+
+        let error = subject.unwrap_err();
+        assert_eq!(error.description, "puzzle must contain a single blank");
+    }
 }
