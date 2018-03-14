@@ -1,3 +1,6 @@
+use std::collections::HashSet;
+use std::iter::FromIterator;
+
 use result::Result;
 use error::SlidingPuzzleError;
 
@@ -23,17 +26,14 @@ impl SlidingPuzzle {
     }
 
     fn must_be_rectangular<T>(vec_2d: &Vec<Vec<T>>) -> Result<()> {
-        let length = vec_2d.first().map(|row| row.len()).unwrap_or(0);
+        let lengths = vec_2d.iter().map(|row| row.len());
+        let uniques = HashSet::<usize>::from_iter(lengths);
 
-        for row in vec_2d {
-            if row.len() != length {
-                return Err(
-                    SlidingPuzzleError::new("puzzle must be rectangular")
-                )
-            }
+        if uniques.len() > 1 {
+            Err(SlidingPuzzleError::new("puzzle must be rectangular"))
+        } else {
+            Ok(())
         }
-
-        Ok(())
     }
 
     fn must_not_be_empty<T>(vec_2d: &Vec<Vec<T>>) -> Result<()> {
