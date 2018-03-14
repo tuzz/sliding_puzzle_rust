@@ -30,11 +30,23 @@ mod new {
     }
 
     #[test]
-    fn it_errors_when_there_are_no_rows() {
+    fn it_errors_if_the_puzzle_is_empty() {
         let subject = Subject::new(vec![]);
         assert!(subject.is_err());
 
         let error = subject.unwrap_err();
-        assert_eq!(error.description, "vector contains no rows");
+        assert_eq!(error.description, "puzzle must not be empty");
+    }
+
+    #[test]
+    fn it_errors_if_the_puzzle_isnt_rectangular() {
+        let subject = Subject::new(vec![
+            vec![0, 1],
+            vec![2],
+        ]);
+        assert!(subject.is_err());
+
+        let error = subject.unwrap_err();
+        assert_eq!(error.description, "puzzle must be rectangular");
     }
 }
