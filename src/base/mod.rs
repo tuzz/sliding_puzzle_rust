@@ -11,9 +11,10 @@ pub struct SlidingPuzzle {
 impl SlidingPuzzle {
     pub fn new(vec_2d: Vec<Vec<u8>>) -> Result<Self> {
         Self::must_be_rectangular(&vec_2d)?;
+        Self::must_not_be_empty(&vec_2d)?;
 
         let rows = Self::number_of_rows(&vec_2d);
-        let columns = Self::number_of_columns(&vec_2d)?;
+        let columns = Self::number_of_columns(&vec_2d);
         let tiles = Self::flatten(vec_2d);
 
         Ok(Self { tiles, rows, columns })
@@ -33,14 +34,23 @@ impl SlidingPuzzle {
         Ok(())
     }
 
+    fn must_not_be_empty<T>(vec_2d: &Vec<Vec<T>>) -> Result<()> {
+        let no_rows = vec_2d.len() == 0;
+        let no_columns = vec_2d.iter().any(|row| row.len() == 0);
+
+        if no_rows || no_columns {
+            Err(SlidingPuzzleError::new("puzzle must not be empty"))
+        } else {
+            Ok(())
+        }
+    }
+
     fn number_of_rows<T>(vec_2d: &Vec<Vec<T>>) -> usize {
         vec_2d.len()
     }
 
-    fn number_of_columns<T>(vec_2d: &Vec<Vec<T>>) -> Result<usize> {
-        vec_2d.first().map(|row| row.len()).ok_or(
-            SlidingPuzzleError::new("puzzle must not be empty")
-        )
+    fn number_of_columns<T>(vec_2d: &Vec<Vec<T>>) -> usize {
+        vec_2d.first().unwrap().len()
     }
 
     fn flatten<T>(vec_2d: Vec<Vec<T>>) -> Vec<T> {

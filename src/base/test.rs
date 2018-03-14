@@ -30,8 +30,17 @@ mod new {
     }
 
     #[test]
-    fn it_errors_if_the_puzzle_is_empty() {
+    fn it_errors_if_the_puzzle_has_no_rows() {
         let subject = Subject::new(vec![]);
+        assert!(subject.is_err());
+
+        let error = subject.unwrap_err();
+        assert_eq!(error.description, "puzzle must not be empty");
+    }
+
+    #[test]
+    fn it_errors_if_the_puzzle_has_no_columns() {
+        let subject = Subject::new(vec![vec![]]);
         assert!(subject.is_err());
 
         let error = subject.unwrap_err();
