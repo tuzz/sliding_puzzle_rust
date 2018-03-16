@@ -66,15 +66,7 @@ impl SlidingPuzzle {
     }
 
     fn flatten<T: Copy>(vec_2d: &Vec<Vec<T>>) -> Vec<T> {
-        let mut vec = Vec::new();
-
-        for row in vec_2d {
-            for element in row {
-                vec.push(*element);
-            }
-        }
-
-        vec
+        vec_2d.iter().flat_map(|row| row.iter().cloned()).collect()
     }
 }
 
