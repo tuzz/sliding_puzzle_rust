@@ -1,8 +1,8 @@
 use super::*;
 
-type Subject = SlidingPuzzle;
+type Subject<T> = SlidingPuzzle<T>;
 
-fn subject() -> Subject {
+fn subject() -> Subject<u8> {
     Subject::new(&[
         &[1, 2, 0],
         &[3, 4, 5],
@@ -30,8 +30,14 @@ mod new {
     }
 
     #[test]
+    fn it_can_be_used_in_a_generic_way() {
+        let subject = Subject::new(&[&["a", "b"], &["c", ""]]).unwrap();
+        assert_eq!(subject.tiles, vec!["a", "b", "c", ""])
+    }
+
+    #[test]
     fn it_errors_if_the_puzzle_has_no_rows() {
-        let subject = Subject::new(&[]);
+        let subject = Subject::<u8>::new(&[]);
         assert!(subject.is_err());
 
         let error = subject.unwrap_err();
@@ -40,7 +46,7 @@ mod new {
 
     #[test]
     fn it_errors_if_the_puzzle_has_no_columns() {
-        let subject = Subject::new(&[&[]]);
+        let subject = Subject::<u8>::new(&[&[]]);
         assert!(subject.is_err());
 
         let error = subject.unwrap_err();

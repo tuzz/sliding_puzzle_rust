@@ -5,14 +5,14 @@ use result::Result;
 use error::SlidingPuzzleError;
 
 #[derive(Debug)]
-pub struct SlidingPuzzle {
-    tiles: Vec<u8>,
+pub struct SlidingPuzzle<T> {
+    tiles: Vec<T>,
     rows: usize,
     columns: usize,
 }
 
-impl SlidingPuzzle {
-    pub fn new(slice_2d: &[&[u8]]) -> Result<Self> {
+impl<T: Copy + Default + PartialEq> SlidingPuzzle<T> {
+    pub fn new(slice_2d: &[&[T]]) -> Result<Self> {
         Self::must_be_rectangular(slice_2d)?;
         Self::must_not_be_empty(slice_2d)?;
 
@@ -25,7 +25,7 @@ impl SlidingPuzzle {
         Ok(Self { tiles, rows, columns })
     }
 
-    fn must_be_rectangular<T>(slice_2d: &[&[T]]) -> Result<()> {
+    fn must_be_rectangular(slice_2d: &[&[T]]) -> Result<()> {
         let lengths = slice_2d.iter().map(|row| row.len());
         let uniques = HashSet::<usize>::from_iter(lengths);
 
@@ -36,7 +36,7 @@ impl SlidingPuzzle {
         }
     }
 
-    fn must_not_be_empty<T>(slice_2d: &[&[T]]) -> Result<()> {
+    fn must_not_be_empty(slice_2d: &[&[T]]) -> Result<()> {
         let no_rows = slice_2d.len() == 0;
         let no_columns = slice_2d.iter().any(|row| row.len() == 0);
 
@@ -47,8 +47,8 @@ impl SlidingPuzzle {
         }
     }
 
-    fn must_contain_one_blank(slice: &[u8]) -> Result<()> {
-        let blanks = slice.iter().filter(|&&e| e == 0).count();
+    fn must_contain_one_blank(slice: &[T]) -> Result<()> {
+        let blanks = slice.iter().filter(Self::is_blank).count();
 
         if blanks != 1 {
             Err(SlidingPuzzleError::new("puzzle must contain a single blank"))
@@ -57,16 +57,20 @@ impl SlidingPuzzle {
         }
     }
 
-    fn number_of_rows<T>(slice_2d: &[&[T]]) -> usize {
+    fn number_of_rows(slice_2d: &[&[T]]) -> usize {
         slice_2d.len()
     }
 
-    fn number_of_columns<T>(slice_2d: &[&[T]]) -> usize {
+    fn number_of_columns(slice_2d: &[&[T]]) -> usize {
         slice_2d.first().unwrap().len()
     }
 
-    fn flatten<T: Copy>(slice_2d: &[&[T]]) -> Vec<T> {
+    fn flatten(slice_2d: &[&[T]]) -> Vec<T> {
         slice_2d.iter().flat_map(|row| row.iter().cloned()).collect()
+    }
+
+    fn is_blank(tile: &&T) -> bool {
+        **tile == T::default()
     }
 }
 
