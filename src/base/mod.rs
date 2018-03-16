@@ -11,7 +11,7 @@ pub struct SlidingPuzzle<T> {
     columns: usize,
 }
 
-impl<T: Copy + Default + PartialEq> SlidingPuzzle<T> {
+impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
     pub fn new(slice_2d: &[&[T]]) -> Result<Self> {
         Self::must_be_rectangular(slice_2d)?;
         Self::must_not_be_empty(slice_2d)?;
