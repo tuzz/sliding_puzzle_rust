@@ -48,7 +48,7 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
     }
 
     fn must_contain_one_blank(slice: &[T]) -> Result<()> {
-        let blanks = slice.iter().filter(Self::is_blank).count();
+        let blanks = slice.iter().filter(|t| Self::is_blank(t)).count();
 
         if blanks != 1 {
             Err(SlidingPuzzleError::new("puzzle must contain a single blank"))
@@ -69,8 +69,8 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         slice_2d.iter().flat_map(|row| row.iter().cloned()).collect()
     }
 
-    fn is_blank(tile: &&T) -> bool {
-        **tile == T::default()
+    fn is_blank(tile: &T) -> bool {
+        *tile == T::default()
     }
 }
 
