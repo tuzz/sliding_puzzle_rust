@@ -42,6 +42,15 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         self.blank = tile;
     }
 
+    pub fn slide_mut(&mut self, direction: &Direction) -> Result<()> {
+        if self.move_is_valid(direction) {
+            self.slide_mut_unchecked(direction);
+            Ok(())
+        } else {
+            Err(SlidingPuzzleError::new("move is invalid"))
+        }
+    }
+
     pub fn move_is_valid(&self, direction: &Direction) -> bool {
         match *direction {
             Direction::Left => !self.blank_is_on_the_right(),
