@@ -5,7 +5,7 @@ use direction::Direction;
 use error::SlidingPuzzleError;
 use result::Result;
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct SlidingPuzzle<T> {
     tiles: Vec<T>,
     rows: usize,
@@ -35,20 +35,25 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
             .collect()
     }
 
-    pub fn slide_mut_unchecked(&mut self, direction: &Direction) {
+    pub fn slide_mut_unchecked(&mut self, direction: &Direction) -> &mut Self {
         let tile = self.index_of_tile_to_swap(direction);
 
         self.tiles.swap(self.blank, tile);
         self.blank = tile;
+        self
     }
 
-    pub fn slide_mut(&mut self, direction: &Direction) -> Result<()> {
+    pub fn slide_mut(&mut self, direction: &Direction) -> Result<(&mut Self)> {
         if self.move_is_valid(direction) {
             self.slide_mut_unchecked(direction);
-            Ok(())
+            Ok(self)
         } else {
             Err(SlidingPuzzleError::new("move is invalid"))
         }
+    }
+
+    pub fn slide_unchecked(&self, direction: &Direction) -> Self {
+        self.clone().slide_mut_unchecked(direction).to_owned()
     }
 
     pub fn move_is_valid(&self, direction: &Direction) -> bool {
