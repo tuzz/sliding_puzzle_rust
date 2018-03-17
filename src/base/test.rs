@@ -118,8 +118,14 @@ mod slide_mut_unchecked {
 
     #[test]
     #[should_panic]
-    fn it_panics_if_the_move_is_invalid() {
+    fn it_might_panic_if_the_move_is_invalid() {
         let mut subject = subject();
         subject.slide_mut_unchecked(Direction::Down);
+    }
+
+    #[test]
+    fn it_might_not_panic_if_the_move_is_invalid() {
+        let mut subject = Subject::new(&[&[1, 0], &[2, 3]]).unwrap();
+        subject.slide_mut_unchecked(Direction::Left);
     }
 }
