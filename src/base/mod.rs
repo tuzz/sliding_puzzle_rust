@@ -35,6 +35,15 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
             .collect()
     }
 
+    pub fn get(&self, row: usize, column: usize) -> Option<&T> {
+        if !self.in_bounds(row, column) { return None }
+
+        let index = row * self.columns + column;
+        let tile = &self.tiles[index];
+
+        Some(tile)
+    }
+
     pub fn slide(&self, direction: &Direction) -> Result<Self> {
         self.clone().slide_mut(direction).map(|s| s.to_owned())
     }
@@ -146,6 +155,10 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
 
     fn is_blank(tile: &T) -> bool {
         *tile == T::default()
+    }
+
+    fn in_bounds(&self, row: usize, column: usize) -> bool {
+        row < self.rows && column < self.columns
     }
 }
 
