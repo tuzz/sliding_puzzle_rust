@@ -36,12 +36,10 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
     }
 
     pub fn slide_mut_unchecked(&mut self, direction: Direction) {
-        let tile = self.blank as isize +
-                   direction.y() * self.columns as isize +
-                   direction.x();
+        let tile = self.index_of_tile_to_swap(direction);
 
-        self.tiles.swap(self.blank, tile as usize);
-        self.blank = tile as usize;
+        self.tiles.swap(self.blank, tile);
+        self.blank = tile;
     }
 
     fn must_be_rectangular(slice_2d: &[&[T]]) -> Result<()> {
@@ -80,6 +78,13 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         slice.iter().position(Self::is_blank).expect(
             "invariant violated: puzzle must contain a single blank",
         )
+    }
+
+    fn index_of_tile_to_swap(&self, direction: Direction) -> usize {
+        let columns = self.columns as isize;
+        let blank = self.blank as isize;
+
+        (blank + direction.y() * columns + direction.x()) as usize
     }
 
     fn number_of_rows(slice_2d: &[&[T]]) -> usize {
