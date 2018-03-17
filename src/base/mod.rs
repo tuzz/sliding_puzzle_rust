@@ -35,15 +35,15 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
             .collect()
     }
 
-    pub fn slide_mut_unchecked(&mut self, direction: Direction) {
+    pub fn slide_mut_unchecked(&mut self, direction: &Direction) {
         let tile = self.index_of_tile_to_swap(direction);
 
         self.tiles.swap(self.blank, tile);
         self.blank = tile;
     }
 
-    pub fn move_is_valid(&self, direction: Direction) -> bool {
-        match direction {
+    pub fn move_is_valid(&self, direction: &Direction) -> bool {
+        match *direction {
             Direction::Left => !self.blank_is_on_the_right(),
             Direction::Right => !self.blank_is_on_the_left(),
             Direction::Up => !self.blank_is_on_the_bottom(),
@@ -105,7 +105,7 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         )
     }
 
-    fn index_of_tile_to_swap(&self, direction: Direction) -> usize {
+    fn index_of_tile_to_swap(&self, direction: &Direction) -> usize {
         let columns = self.columns as isize;
         let blank = self.blank as isize;
 

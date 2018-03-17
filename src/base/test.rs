@@ -101,14 +101,14 @@ mod slide_mut_unchecked {
     fn it_slides_a_tile_in_the_direction_of_the_blank() {
         let mut subject = subject();
 
-        subject.slide_mut_unchecked(Direction::Right);
+        subject.slide_mut_unchecked(&Direction::Right);
         assert_eq!(subject.tiles(), &[
             &[1, 0, 2],
             &[3, 4, 5],
             &[6, 7, 8],
         ]);
 
-        subject.slide_mut_unchecked(Direction::Up);
+        subject.slide_mut_unchecked(&Direction::Up);
         assert_eq!(subject.tiles(), &[
             &[1, 4, 2],
             &[3, 0, 5],
@@ -120,13 +120,13 @@ mod slide_mut_unchecked {
     #[should_panic]
     fn it_might_panic_if_the_move_is_invalid() {
         let mut subject = subject();
-        subject.slide_mut_unchecked(Direction::Down);
+        subject.slide_mut_unchecked(&Direction::Down);
     }
 
     #[test]
     fn it_might_not_panic_if_the_move_is_invalid() {
         let mut subject = Subject::new(&[&[1, 0], &[2, 3]]).unwrap();
-        subject.slide_mut_unchecked(Direction::Left);
+        subject.slide_mut_unchecked(&Direction::Left);
     }
 }
 
@@ -135,10 +135,10 @@ mod move_is_valid {
 
     #[test]
     fn it_returns_whether_the_move_can_be_made_in_the_puzzle() {
-        assert!(!subject().move_is_valid(Direction::Left));
-        assert!(subject().move_is_valid(Direction::Right));
-        assert!(subject().move_is_valid(Direction::Up));
-        assert!(!subject().move_is_valid(Direction::Down));
+        assert!(!subject().move_is_valid(&Direction::Left));
+        assert!(subject().move_is_valid(&Direction::Right));
+        assert!(subject().move_is_valid(&Direction::Up));
+        assert!(!subject().move_is_valid(&Direction::Down));
     }
 }
 
