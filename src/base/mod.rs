@@ -10,6 +10,7 @@ pub struct SlidingPuzzle<T> {
     tiles: Vec<T>,
     rows: usize,
     columns: usize,
+    blank: usize,
 }
 
 impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
@@ -22,8 +23,9 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         let tiles = Self::flatten(slice_2d);
 
         Self::must_contain_one_blank(&tiles)?;
+        let blank = Self::index_of_blank(&tiles);
 
-        Ok(Self { tiles, rows, columns })
+        Ok(Self { tiles, rows, columns, blank })
     }
 
     pub fn tiles(&self) -> Vec<Vec<T>> {
@@ -34,13 +36,12 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
     }
 
     pub fn slide_mut_unchecked(&mut self, direction: Direction) {
-        let blank = self.tiles.iter().position(Self::is_blank).unwrap();
-
-        let tile = blank as isize +
+        let tile = self.blank as isize +
                    direction.y() * self.columns as isize +
                    direction.x();
 
-        self.tiles.swap(blank, tile as usize)
+        self.tiles.swap(self.blank, tile as usize);
+        self.blank = tile as usize;
     }
 
     fn must_be_rectangular(slice_2d: &[&[T]]) -> Result<()> {
@@ -73,6 +74,10 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         } else {
             Ok(())
         }
+    }
+
+    fn index_of_blank(slice: &[T]) -> usize {
+        slice.iter().position(Self::is_blank).unwrap()
     }
 
     fn number_of_rows(slice_2d: &[&[T]]) -> usize {
