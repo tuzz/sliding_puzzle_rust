@@ -14,7 +14,7 @@ mod new {
     use super::*;
 
     #[test]
-    fn it_is_initialized_with_a_2d_vector() {
+    fn it_is_initialized_with_a_2d_slice() {
         assert_eq!(subject().tiles, vec![1, 2, 0, 3, 4, 5, 6, 7, 8]);
         assert_eq!(subject().rows, 3);
         assert_eq!(subject().columns, 3);
@@ -78,5 +78,18 @@ mod new {
 
         let error = subject.unwrap_err();
         assert_eq!(error.description, "puzzle must contain a single blank");
+    }
+}
+
+mod tiles {
+    use super::*;
+
+    #[test]
+    fn it_reconstructs_the_2d_representation_of_the_puzzle() {
+        assert_eq!(subject().tiles(), &[
+            &[1, 2, 0],
+            &[3, 4, 5],
+            &[6, 7, 8],
+        ]);
     }
 }

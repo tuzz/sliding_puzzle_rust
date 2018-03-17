@@ -25,6 +25,13 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         Ok(Self { tiles, rows, columns })
     }
 
+    pub fn tiles(&self) -> Vec<Vec<T>> {
+        self.tiles
+            .chunks(self.columns)
+            .map(|c| c.iter().cloned().collect())
+            .collect()
+    }
+
     fn must_be_rectangular(slice_2d: &[&[T]]) -> Result<()> {
         let lengths = slice_2d.iter().map(|row| row.len());
         let uniques = HashSet::<usize>::from_iter(lengths);
