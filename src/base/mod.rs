@@ -1,8 +1,9 @@
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
-use result::Result;
+use direction::Direction;
 use error::SlidingPuzzleError;
+use result::Result;
 
 #[derive(Debug)]
 pub struct SlidingPuzzle<T> {
@@ -30,6 +31,16 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
             .chunks(self.columns)
             .map(|c| c.iter().cloned().collect())
             .collect()
+    }
+
+    pub fn slide_mut_unchecked(&mut self, direction: Direction) {
+        let blank = self.tiles.iter().position(Self::is_blank).unwrap();
+
+        let tile = blank as isize +
+                   direction.y() * self.columns as isize +
+                   direction.x();
+
+        self.tiles.swap(blank, tile as usize)
     }
 
     fn must_be_rectangular(slice_2d: &[&[T]]) -> Result<()> {
