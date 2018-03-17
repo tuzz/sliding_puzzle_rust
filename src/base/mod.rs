@@ -42,13 +42,12 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         self.blank = tile;
     }
 
-    // TODO: test
     pub fn move_is_valid(&self, direction: Direction) -> bool {
         match direction {
             Direction::Left => !self.blank_is_on_the_right(),
             Direction::Right => !self.blank_is_on_the_left(),
-            Direction::Up => !self.blank_is_on_the_top(),
-            Direction::Down => !self.blank_is_on_the_bottom(),
+            Direction::Up => !self.blank_is_on_the_bottom(),
+            Direction::Down => !self.blank_is_on_the_top(),
         }
     }
 
