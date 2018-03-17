@@ -53,6 +53,17 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         Some((row, column))
     }
 
+    pub fn moves(&self) -> Vec<Direction> {
+        let mut vec = Vec::with_capacity(4);
+
+        self.push_if_valid(&mut vec, Direction::Left);
+        self.push_if_valid(&mut vec, Direction::Right);
+        self.push_if_valid(&mut vec, Direction::Up);
+        self.push_if_valid(&mut vec, Direction::Down);
+
+        vec
+    }
+
     pub fn slide(&self, direction: &Direction) -> Result<Self> {
         self.clone().slide_mut(direction).map(|s| s.to_owned())
     }
@@ -168,6 +179,12 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
 
     fn is_blank(tile: &T) -> bool {
         *tile == T::default()
+    }
+
+    fn push_if_valid(&self, vec: &mut Vec<Direction>, direction: Direction) {
+        if self.move_is_valid(&direction) {
+            vec.push(direction);
+        }
     }
 }
 

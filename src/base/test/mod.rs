@@ -14,6 +14,7 @@ mod new;
 mod tiles;
 mod get;
 mod position;
+mod moves;
 mod slide;
 mod slide_mut;
 mod slide_unchecked;
