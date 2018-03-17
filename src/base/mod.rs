@@ -56,6 +56,10 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         self.clone().slide_mut_unchecked(direction).to_owned()
     }
 
+    pub fn slide(&self, direction: &Direction) -> Result<Self> {
+        self.clone().slide_mut(direction).map(|s| s.to_owned())
+    }
+
     pub fn move_is_valid(&self, direction: &Direction) -> bool {
         match *direction {
             Direction::Left => !self.blank_is_on_the_right(),
