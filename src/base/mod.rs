@@ -77,7 +77,9 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
     }
 
     fn index_of_blank(slice: &[T]) -> usize {
-        slice.iter().position(Self::is_blank).unwrap()
+        slice.iter().position(Self::is_blank).expect(
+            "invariant violated: puzzle must contain a single blank",
+        )
     }
 
     fn number_of_rows(slice_2d: &[&[T]]) -> usize {
@@ -85,7 +87,9 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
     }
 
     fn number_of_columns(slice_2d: &[&[T]]) -> usize {
-        slice_2d.first().unwrap().len()
+        slice_2d.first().expect(
+            "inariant violated: puzzle must not be empty",
+        ).len()
     }
 
     fn flatten(slice_2d: &[&[T]]) -> Vec<T> {
