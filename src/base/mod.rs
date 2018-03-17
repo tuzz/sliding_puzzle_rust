@@ -69,6 +69,10 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         self
     }
 
+    pub fn in_bounds(&self, row: usize, column: usize) -> bool {
+        row < self.rows && column < self.columns
+    }
+
     pub fn move_is_valid(&self, direction: &Direction) -> bool {
         match *direction {
             Direction::Left => !self.blank_is_on_the_right(),
@@ -155,10 +159,6 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
 
     fn is_blank(tile: &T) -> bool {
         *tile == T::default()
-    }
-
-    fn in_bounds(&self, row: usize, column: usize) -> bool {
-        row < self.rows && column < self.columns
     }
 }
 
