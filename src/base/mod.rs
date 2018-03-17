@@ -44,6 +44,15 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         Some(tile)
     }
 
+    pub fn position(&self, tile: &T) -> Option<(usize, usize)> {
+        let index = self.tiles.iter().position(|t| t == tile)?;
+
+        let row = index / self.columns;
+        let column = index % self.columns;
+
+        Some((row, column))
+    }
+
     pub fn slide(&self, direction: &Direction) -> Result<Self> {
         self.clone().slide_mut(direction).map(|s| s.to_owned())
     }

@@ -13,6 +13,7 @@ fn subject() -> Subject<u8> {
 mod new;
 mod tiles;
 mod get;
+mod position;
 mod slide;
 mod slide_mut;
 mod slide_unchecked;
