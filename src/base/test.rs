@@ -129,3 +129,77 @@ mod slide_mut_unchecked {
         subject.slide_mut_unchecked(Direction::Left);
     }
 }
+
+mod blank_is_on_the_x {
+    use super::*;
+
+    const BLANK_IS_TOP_LEFT: &[&[u8]] = &[&[0, 1], &[2, 3]];
+    const BLANK_IS_TOP_MIDDLE: &[&[u8]] = &[&[1, 0, 2], &[3, 4, 5]];
+    const BLANK_IS_TOP_RIGHT: &[&[u8]] = &[&[1, 0], &[3, 4]];
+    const BLANK_IS_MIDDLE_LEFT: &[&[u8]] = &[&[1, 2], &[0, 3], &[4, 5]];
+    const BLANK_IS_MIDDLE: &[&[u8]] = &[&[1, 2, 3], &[4, 0, 5], &[6, 7, 8]];
+    const BLANK_IS_MIDDLE_RIGHT: &[&[u8]] = &[&[1, 2], &[3, 0], &[4, 5]];
+    const BLANK_IS_BOTTOM_LEFT: &[&[u8]] = &[&[1, 2], &[0, 3]];
+    const BLANK_IS_BOTTOM_MIDDLE: &[&[u8]] = &[&[1, 2, 3], &[4, 0, 5]];
+    const BLANK_IS_BOTTOM_RIGHT: &[&[u8]] = &[&[1, 2], &[3, 0]];
+
+    #[test]
+    fn blank_is_on_the_left_test() {
+        let result = |s| Subject::new(s).unwrap().blank_is_on_the_left();
+
+        assert!(result(BLANK_IS_TOP_LEFT));
+        assert!(!result(BLANK_IS_TOP_MIDDLE));
+        assert!(!result(BLANK_IS_TOP_RIGHT));
+        assert!(result(BLANK_IS_MIDDLE_LEFT));
+        assert!(!result(BLANK_IS_MIDDLE));
+        assert!(!result(BLANK_IS_MIDDLE_RIGHT));
+        assert!(result(BLANK_IS_BOTTOM_LEFT));
+        assert!(!result(BLANK_IS_BOTTOM_MIDDLE));
+        assert!(!result(BLANK_IS_BOTTOM_RIGHT));
+    }
+
+    #[test]
+    fn blank_is_on_the_right_test() {
+        let result = |s| Subject::new(s).unwrap().blank_is_on_the_right();
+
+        assert!(!result(BLANK_IS_TOP_LEFT));
+        assert!(!result(BLANK_IS_TOP_MIDDLE));
+        assert!(result(BLANK_IS_TOP_RIGHT));
+        assert!(!result(BLANK_IS_MIDDLE_LEFT));
+        assert!(!result(BLANK_IS_MIDDLE));
+        assert!(result(BLANK_IS_MIDDLE_RIGHT));
+        assert!(!result(BLANK_IS_BOTTOM_LEFT));
+        assert!(!result(BLANK_IS_BOTTOM_MIDDLE));
+        assert!(result(BLANK_IS_BOTTOM_RIGHT));
+    }
+
+    #[test]
+    fn blank_is_on_the_top_test() {
+        let result = |s| Subject::new(s).unwrap().blank_is_on_the_top();
+
+        assert!(result(BLANK_IS_TOP_LEFT));
+        assert!(result(BLANK_IS_TOP_MIDDLE));
+        assert!(result(BLANK_IS_TOP_RIGHT));
+        assert!(!result(BLANK_IS_MIDDLE_LEFT));
+        assert!(!result(BLANK_IS_MIDDLE));
+        assert!(!result(BLANK_IS_MIDDLE_RIGHT));
+        assert!(!result(BLANK_IS_BOTTOM_LEFT));
+        assert!(!result(BLANK_IS_BOTTOM_MIDDLE));
+        assert!(!result(BLANK_IS_BOTTOM_RIGHT));
+    }
+
+    #[test]
+    fn blank_is_on_the_bottom_test() {
+        let result = |s| Subject::new(s).unwrap().blank_is_on_the_bottom();
+
+        assert!(!result(BLANK_IS_TOP_LEFT));
+        assert!(!result(BLANK_IS_TOP_MIDDLE));
+        assert!(!result(BLANK_IS_TOP_RIGHT));
+        assert!(!result(BLANK_IS_MIDDLE_LEFT));
+        assert!(!result(BLANK_IS_MIDDLE));
+        assert!(!result(BLANK_IS_MIDDLE_RIGHT));
+        assert!(result(BLANK_IS_BOTTOM_LEFT));
+        assert!(result(BLANK_IS_BOTTOM_MIDDLE));
+        assert!(result(BLANK_IS_BOTTOM_RIGHT));
+    }
+}

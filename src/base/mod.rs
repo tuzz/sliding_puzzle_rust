@@ -42,6 +42,32 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         self.blank = tile;
     }
 
+    // TODO: test
+    pub fn move_is_valid(&self, direction: Direction) -> bool {
+        match direction {
+            Direction::Left => !self.blank_is_on_the_right(),
+            Direction::Right => !self.blank_is_on_the_left(),
+            Direction::Up => !self.blank_is_on_the_top(),
+            Direction::Down => !self.blank_is_on_the_bottom(),
+        }
+    }
+
+    pub fn blank_is_on_the_left(&self) -> bool {
+        self.blank % self.columns == 0
+    }
+
+    pub fn blank_is_on_the_right(&self) -> bool {
+        (self.blank + 1) % self.columns == 0
+    }
+
+    pub fn blank_is_on_the_top(&self) -> bool {
+        self.blank < self.columns
+    }
+
+    pub fn blank_is_on_the_bottom(&self) -> bool {
+        self.blank >= (self.tiles.len() - self.columns)
+    }
+
     fn must_be_rectangular(slice_2d: &[&[T]]) -> Result<()> {
         let lengths = slice_2d.iter().map(|row| row.len());
         let uniques = HashSet::<usize>::from_iter(lengths);
