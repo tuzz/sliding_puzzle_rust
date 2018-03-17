@@ -18,7 +18,7 @@ fn it_does_not_mutate_the_subject() {
     let mut mutable = subject();
     let _ = mutable.slide_unchecked(&Direction::Right);
 
-    assert_eq!(mutable.tiles, subject().tiles);
+    assert_eq!(mutable, subject());
 }
 
 #[test]

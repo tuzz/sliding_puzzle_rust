@@ -5,7 +5,7 @@ use direction::Direction;
 use error::SlidingPuzzleError;
 use result::Result;
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct SlidingPuzzle<T> {
     tiles: Vec<T>,
     rows: usize,

@@ -28,5 +28,5 @@ fn it_does_not_mutate_the_puzzle_if_the_move_is_invalid() {
     let mut mutable = subject();
     let _ = mutable.slide_mut(&Direction::Left);
 
-    assert_eq!(mutable.tiles, subject().tiles);
+    assert_eq!(mutable, subject());
 }
