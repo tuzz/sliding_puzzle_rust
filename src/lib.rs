@@ -1,4 +1,5 @@
 mod base;
+mod direction;
 mod error;
 mod result;
 
