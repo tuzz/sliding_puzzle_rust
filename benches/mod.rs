@@ -2,10 +2,20 @@
 extern crate sliding_puzzle;
 
 use bencher::Bencher;
-use sliding_puzzle::SlidingPuzzle;
+use sliding_puzzle::*;
 
 mod new;
+mod clone;
+mod slide;
+mod slide_mut;
+mod slide_unchecked;
+mod slide_mut_unchecked;
 
 benchmark_main!(
     new::benches,
+    clone::benches,
+    slide::benches,
+    slide_mut::benches,
+    slide_unchecked::benches,
+    slide_mut_unchecked::benches,
 );

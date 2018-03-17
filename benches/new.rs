@@ -1,6 +1,6 @@
 use super::*;
 
-pub fn three_by_three(bench: &mut Bencher) {
+pub fn new_eight_puzzle(bench: &mut Bencher) {
     bench.iter(|| {
         SlidingPuzzle::new(&[
             &[0, 1, 2],
@@ -10,7 +10,7 @@ pub fn three_by_three(bench: &mut Bencher) {
     })
 }
 
-pub fn nine_by_nine(bench: &mut Bencher) {
+pub fn new_eighty_puzzle(bench: &mut Bencher) {
     bench.iter(|| {
         SlidingPuzzle::new(&[
             &[ 0,  1,  2,  3,  4,  5,  6,  7,  8],
@@ -27,6 +27,6 @@ pub fn nine_by_nine(bench: &mut Bencher) {
 }
 
 benchmark_group!(benches,
-    three_by_three,
-    nine_by_nine,
+    new_eight_puzzle,
+    new_eighty_puzzle,
 );
