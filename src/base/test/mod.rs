@@ -12,9 +12,9 @@ fn subject() -> Subject<u8> {
 
 mod new;
 mod tiles;
-mod slide_mut_unchecked;
+mod slide;
 mod slide_mut;
 mod slide_unchecked;
-mod slide;
+mod slide_mut_unchecked;
 mod move_is_valid;
 mod blank_is_on_the_x;

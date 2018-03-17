@@ -35,12 +35,8 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
             .collect()
     }
 
-    pub fn slide_mut_unchecked(&mut self, direction: &Direction) -> &mut Self {
-        let tile = self.index_of_tile_to_swap(direction);
-
-        self.tiles.swap(self.blank, tile);
-        self.blank = tile;
-        self
+    pub fn slide(&self, direction: &Direction) -> Result<Self> {
+        self.clone().slide_mut(direction).map(|s| s.to_owned())
     }
 
     pub fn slide_mut(&mut self, direction: &Direction) -> Result<(&mut Self)> {
@@ -56,8 +52,12 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         self.clone().slide_mut_unchecked(direction).to_owned()
     }
 
-    pub fn slide(&self, direction: &Direction) -> Result<Self> {
-        self.clone().slide_mut(direction).map(|s| s.to_owned())
+    pub fn slide_mut_unchecked(&mut self, direction: &Direction) -> &mut Self {
+        let tile = self.index_of_tile_to_swap(direction);
+
+        self.tiles.swap(self.blank, tile);
+        self.blank = tile;
+        self
     }
 
     pub fn move_is_valid(&self, direction: &Direction) -> bool {
