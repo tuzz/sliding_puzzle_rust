@@ -1,6 +1,7 @@
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
+use lehmer::Lehmer;
 use rand::{thread_rng,seq};
 
 use direction::Direction;
@@ -222,6 +223,12 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         let index = vec.iter().position(|x| *x == item)?;
 
         Some(vec.remove(index))
+    }
+}
+
+impl SlidingPuzzle<u64> {
+    pub fn to_decimal_unchecked(self) -> u64 {
+        Lehmer::from_permutation(self.tiles).to_decimal()
     }
 }
 

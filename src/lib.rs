@@ -1,3 +1,4 @@
+extern crate lehmer;
 extern crate rand;
 
 mod base;
