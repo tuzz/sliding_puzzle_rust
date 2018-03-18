@@ -185,7 +185,7 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
 
     fn number_of_columns(slice_2d: &[&[T]]) -> usize {
         slice_2d.first().expect(
-            "inariant violated: puzzle must not be empty",
+            "invariant violated: puzzle must not be empty",
         ).len()
     }
 
@@ -212,7 +212,9 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         let mut rng = thread_rng();
         let vec = seq::sample_slice(&mut rng, &moves, 1);
 
-        vec.first().unwrap().to_owned()
+        vec.first().expect(
+            "there should always be at least one available move",
+        ).to_owned()
     }
 
     pub fn remove<U: PartialEq>(vec: &mut Vec<U>, item_option: Option<U>) -> Option<U> {
