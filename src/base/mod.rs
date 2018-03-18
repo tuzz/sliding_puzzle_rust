@@ -232,6 +232,15 @@ impl SlidingPuzzle<u64> {
         Ok(self.to_decimal_unchecked())
     }
 
+    pub fn from_decimal(d: u64, rows: usize, columns: usize) -> Result<Self> {
+        Self::must_not_be_zero(rows)?;
+        Self::must_not_be_zero(columns)?;
+        Self::must_not_exceed_twenty_tiles(rows, columns)?;
+        Self::must_not_exceed_max_value(d, rows, columns)?;
+
+        Ok(Self::from_decimal_unchecked(d, rows, columns))
+    }
+
     pub fn to_decimal_unchecked(self) -> u64 {
         Lehmer::from_permutation(self.tiles).to_decimal()
     }
@@ -250,6 +259,43 @@ impl SlidingPuzzle<u64> {
         if clone != self.sequential_tiles() {
             let message = "puzzle must contain all numbers from 0 to n-1";
             Err(SlidingPuzzleError::new(message))
+        } else {
+            Ok(())
+        }
+    }
+
+    fn must_not_be_zero(x: usize) -> Result<()> {
+        if x == 0 {
+            let message = "puzzle must contain at least one row and column";
+            Err(SlidingPuzzleError::new(message))
+        } else {
+            Ok(())
+        }
+    }
+
+    fn must_not_exceed_twenty_tiles(rows: usize, columns: usize) -> Result<()> {
+        let max_tiles = 20;
+        let tiles = rows * columns;
+
+        if tiles > max_tiles {
+            let message = format!("{} is greater than the maximum ({}) tiles",
+                tiles, max_tiles);
+
+            Err(SlidingPuzzleError::new(&message))
+        } else {
+            Ok(())
+        }
+    }
+
+    fn must_not_exceed_max_value(decimal: u64, rows: usize, columns: usize) -> Result<()> {
+        let max_value = Lehmer::max_value(rows * columns);
+
+        if decimal > max_value {
+            let message = format!(
+                "{} is greater than the maximum ({}) for a {} by {} puzzle",
+                decimal, max_value, rows, columns);
+
+            Err(SlidingPuzzleError::new(&message))
         } else {
             Ok(())
         }
