@@ -11,7 +11,6 @@ use result::Result;
 #[derive(Debug, Clone, PartialEq)]
 pub struct SlidingPuzzle<T> {
     tiles: Vec<T>,
-    rows: usize,
     columns: usize,
     blank: usize,
 }
@@ -21,14 +20,13 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         Self::must_be_rectangular(slice_2d)?;
         Self::must_not_be_empty(slice_2d)?;
 
-        let rows = Self::number_of_rows(slice_2d);
         let columns = Self::number_of_columns(slice_2d);
         let tiles = Self::flatten(slice_2d);
 
         Self::must_contain_one_blank(&tiles)?;
         let blank = Self::index_of_blank(&tiles);
 
-        Ok(Self { tiles, rows, columns, blank })
+        Ok(Self { tiles, columns, blank })
     }
 
     pub fn tiles(&self) -> Vec<Vec<T>> {
@@ -107,7 +105,8 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
     }
 
     pub fn in_bounds(&self, row: usize, column: usize) -> bool {
-        row < self.rows && column < self.columns
+        let rows = self.tiles.len() / self.columns;
+        row < rows && column < self.columns
     }
 
     pub fn move_is_valid(&self, direction: &Direction) -> bool {
@@ -180,10 +179,6 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         (blank + direction.y() * columns + direction.x()) as usize
     }
 
-    fn number_of_rows(slice_2d: &[&[T]]) -> usize {
-        slice_2d.len()
-    }
-
     fn number_of_columns(slice_2d: &[&[T]]) -> usize {
         slice_2d.first().expect(
             "invariant violated: puzzle must not be empty",
@@ -249,7 +244,7 @@ impl SlidingPuzzle<u8> {
         let tiles = Lehmer::from_decimal(d, rows * columns).to_permutation();
         let blank = Self::index_of_blank(&tiles);
 
-        Self { tiles, rows, columns, blank }
+        Self { tiles, columns, blank }
     }
 
     fn must_contain_all_numbers(&self) -> Result<()> {

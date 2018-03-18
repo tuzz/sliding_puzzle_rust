@@ -4,7 +4,6 @@ use super::*;
 fn it_constructs_a_puzzle_with_sequential_tiles_for_zero() {
     let subject = Subject::from_decimal_unchecked(0, 2, 3);
 
-    assert_eq!(subject.rows, 2);
     assert_eq!(subject.columns, 3);
     assert_eq!(subject.blank, 0);
 
@@ -18,7 +17,6 @@ fn it_constructs_a_puzzle_with_sequential_tiles_for_zero() {
 fn it_constructs_a_puzzle_from_the_factorial_base_number_in_general() {
     let subject = Subject::from_decimal_unchecked(120, 2, 3);
 
-    assert_eq!(subject.rows, 2);
     assert_eq!(subject.columns, 3);
     assert_eq!(subject.blank, 1);
 
