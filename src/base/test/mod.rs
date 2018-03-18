@@ -23,5 +23,6 @@ mod scramble;
 mod in_bounds;
 mod move_is_valid;
 mod blank_is_on_the_x;
+mod to_decimal;
 mod to_decimal_unchecked;
 mod from_decimal_unchecked;

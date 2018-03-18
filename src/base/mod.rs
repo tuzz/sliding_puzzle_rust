@@ -227,6 +227,11 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
 }
 
 impl SlidingPuzzle<u64> {
+    pub fn to_decimal(self) -> Result<u64> {
+        self.must_contain_all_numbers()?;
+        Ok(self.to_decimal_unchecked())
+    }
+
     pub fn to_decimal_unchecked(self) -> u64 {
         Lehmer::from_permutation(self.tiles).to_decimal()
     }
@@ -236,6 +241,25 @@ impl SlidingPuzzle<u64> {
         let blank = Self::index_of_blank(&tiles);
 
         Self { tiles, rows, columns, blank }
+    }
+
+    fn must_contain_all_numbers(&self) -> Result<()> {
+        let mut clone = self.tiles.clone();
+        clone.sort_unstable();
+
+        if clone != self.sequential_tiles() {
+            let message = "puzzle must contain all numbers from 0 to n-1";
+            Err(SlidingPuzzleError::new(message))
+        } else {
+            Ok(())
+        }
+    }
+
+    fn sequential_tiles(&self) -> Vec<u64> {
+        let start: u64 = 0;
+        let end = self.tiles.len() as u64;
+
+        (start..end).collect()
     }
 }
 
