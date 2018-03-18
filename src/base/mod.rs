@@ -230,6 +230,13 @@ impl SlidingPuzzle<u64> {
     pub fn to_decimal_unchecked(self) -> u64 {
         Lehmer::from_permutation(self.tiles).to_decimal()
     }
+
+    pub fn from_decimal_unchecked(d: u64, rows: usize, columns: usize) -> Self {
+        let tiles = Lehmer::from_decimal(d, rows * columns).to_permutation();
+        let blank = Self::index_of_blank(&tiles);
+
+        Self { tiles, rows, columns, blank }
+    }
 }
 
 #[cfg(test)]
