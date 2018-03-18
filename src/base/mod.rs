@@ -226,7 +226,7 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
     }
 }
 
-impl SlidingPuzzle<u64> {
+impl SlidingPuzzle<u8> {
     pub fn to_decimal(self) -> Result<u64> {
         self.must_contain_all_numbers()?;
         Ok(self.to_decimal_unchecked())
@@ -301,9 +301,9 @@ impl SlidingPuzzle<u64> {
         }
     }
 
-    fn sequential_tiles(&self) -> Vec<u64> {
-        let start: u64 = 0;
-        let end = self.tiles.len() as u64;
+    fn sequential_tiles(&self) -> Vec<u8> {
+        let start: u8 = 0;
+        let end = self.tiles.len() as u8;
 
         (start..end).collect()
     }

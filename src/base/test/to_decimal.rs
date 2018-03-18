@@ -2,7 +2,7 @@ use super::*;
 
 #[test]
 fn it_returns_the_factorial_base_number_in_general() {
-    let subject = Subject::<u64>::new(&[
+    let subject = Subject::new(&[
         &[1, 0, 2],
         &[3, 4, 5],
     ]).unwrap();
@@ -12,7 +12,7 @@ fn it_returns_the_factorial_base_number_in_general() {
 
 #[test]
 fn it_errors_if_the_puzzle_doesnt_contain_zero_through_n_minus_one() {
-    let subject = Subject::<u64>::new(&[&[0, 2, 3]]).unwrap();
+    let subject = Subject::new(&[&[0, 2, 3]]).unwrap();
 
     let result = subject.to_decimal();
     assert!(result.is_err());

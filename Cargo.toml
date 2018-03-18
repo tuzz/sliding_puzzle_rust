@@ -10,7 +10,7 @@ readme = "README.md"
 license = "MIT"
 
 [dependencies]
-lehmer = "1.1.0"
+lehmer = "2.0.0"
 rand = "0.4.2"
 
 [dev-dependencies]

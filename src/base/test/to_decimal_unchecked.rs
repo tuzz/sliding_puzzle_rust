@@ -2,7 +2,7 @@ use super::*;
 
 #[test]
 fn it_returns_zero_if_the_tiles_are_in_sequence() {
-    let subject = Subject::<u64>::new(&[
+    let subject = Subject::new(&[
         &[0, 1, 2],
         &[3, 4, 5],
     ]).unwrap();
@@ -12,7 +12,7 @@ fn it_returns_zero_if_the_tiles_are_in_sequence() {
 
 #[test]
 fn it_returns_the_factorial_base_number_in_general() {
-    let subject = Subject::<u64>::new(&[
+    let subject = Subject::new(&[
         &[1, 0, 2],
         &[3, 4, 5],
     ]).unwrap();
