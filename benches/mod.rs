@@ -11,6 +11,7 @@ mod slide;
 mod slide_mut;
 mod slide_unchecked;
 mod slide_mut_unchecked;
+mod scramble;
 
 benchmark_main!(
     new::benches,
@@ -20,4 +21,5 @@ benchmark_main!(
     slide_mut::benches,
     slide_unchecked::benches,
     slide_mut_unchecked::benches,
+    scramble::benches,
 );
