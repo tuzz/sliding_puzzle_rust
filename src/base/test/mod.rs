@@ -19,6 +19,7 @@ mod slide;
 mod slide_mut;
 mod slide_unchecked;
 mod slide_mut_unchecked;
+mod scramble;
 mod in_bounds;
 mod move_is_valid;
 mod blank_is_on_the_x;

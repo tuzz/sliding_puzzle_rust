@@ -23,3 +23,15 @@ mod y {
         assert_eq!(Direction::Down.y(), -1);
     }
 }
+
+mod opposite {
+    use super::*;
+
+    #[test]
+    fn it_returns_the_opposite_direction() {
+        assert_eq!(Direction::Left.opposite(), Direction::Right);
+        assert_eq!(Direction::Right.opposite(), Direction::Left);
+        assert_eq!(Direction::Up.opposite(), Direction::Down);
+        assert_eq!(Direction::Down.opposite(), Direction::Up);
+    }
+}

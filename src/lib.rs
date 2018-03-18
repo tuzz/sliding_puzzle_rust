@@ -1,3 +1,5 @@
+extern crate rand;
+
 mod base;
 mod direction;
 mod error;

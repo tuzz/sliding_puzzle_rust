@@ -10,7 +10,7 @@ readme = "README.md"
 license = "MIT"
 
 [dependencies]
-
+rand = "0.4.2"
 
 [dev-dependencies]
 bencher = "0.1.5"

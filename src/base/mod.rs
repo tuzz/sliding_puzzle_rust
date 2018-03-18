@@ -1,6 +1,8 @@
 use std::collections::HashSet;
 use std::iter::FromIterator;
 
+use rand::{thread_rng,seq};
+
 use direction::Direction;
 use error::SlidingPuzzleError;
 use result::Result;
@@ -87,6 +89,20 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         self.tiles.swap(self.blank, tile);
         self.blank = tile;
         self
+    }
+
+    pub fn scramble(&self, number_of_moves: usize) -> Self {
+        let mut clone = self.clone();
+        let mut previous = None;
+
+        for _ in 0..number_of_moves {
+            let direction = clone.random_move(previous);
+            clone.slide_mut_unchecked(&direction);
+
+            previous = Some(direction);
+        }
+
+        clone.to_owned()
     }
 
     pub fn in_bounds(&self, row: usize, column: usize) -> bool {
@@ -185,6 +201,25 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         if self.move_is_valid(&direction) {
             vec.push(direction);
         }
+    }
+
+    fn random_move(&self, previous: Option<Direction>) -> Direction {
+        let mut moves = self.moves();
+
+        let opposite = previous.map(|d| d.opposite());
+        Self::remove(&mut moves, opposite);
+
+        let mut rng = thread_rng();
+        let vec = seq::sample_slice(&mut rng, &moves, 1);
+
+        vec.first().unwrap().to_owned()
+    }
+
+    pub fn remove<U: PartialEq>(vec: &mut Vec<U>, item_option: Option<U>) -> Option<U> {
+        let item = item_option?;
+        let index = vec.iter().position(|x| *x == item)?;
+
+        Some(vec.remove(index))
     }
 }
 
