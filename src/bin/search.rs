@@ -110,7 +110,8 @@ fn estimate_memory(rows: usize, columns: usize, max: u64) -> f64 {
         _ => 0,
     };
 
-    estimate += max_width * 9; // queue
+    // queue and next_queue for (u64, Direction) tuple
+    estimate += (max_width * 9) * 2;
     estimate as f64 / 8.0 / 1024.0 / 1024.0 / 1024.0 // GB
 }
 
