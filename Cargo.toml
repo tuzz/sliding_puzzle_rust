@@ -1,11 +1,11 @@
 [package]
 name = "sliding_puzzle"
-description = "TODO"
-version = "0.1.0"
+description = "A Rust crate for manipulating sliding tile puzzles."
+version = "1.0.0"
 authors = ["Chris Patuzzo <chris@patuzzo.co.uk>"]
-documentation = "https://github.com/tuzz/sliding_puzzle"
-homepage = "https://github.com/tuzz/sliding_puzzle"
-repository = "https://github.com/tuzz/sliding_puzzle"
+documentation = "https://github.com/tuzz/sliding_puzzle_rust"
+homepage = "https://github.com/tuzz/sliding_puzzle_rust"
+repository = "https://github.com/tuzz/sliding_puzzle_rust"
 readme = "README.md"
 license = "MIT"
 
