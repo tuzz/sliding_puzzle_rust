@@ -1,5 +1,7 @@
 ## Sliding Puzzle
 
+![Travis](https://travis-ci.org/tuzz/sliding_puzzle.svg?branch=master)
+
 A Rust crate for manipulating sliding tile puzzles.
 
 ## Overview
