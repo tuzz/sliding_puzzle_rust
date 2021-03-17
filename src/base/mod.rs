@@ -8,7 +8,7 @@ use direction::Direction;
 use error::SlidingPuzzleError;
 use result::Result;
 
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub struct SlidingPuzzle<T> {
     tiles: Vec<T>,
     columns: usize,
@@ -69,7 +69,7 @@ impl<T: Clone + Default + PartialEq> SlidingPuzzle<T> {
         self.clone().slide_mut(direction).map(|s| s.to_owned())
     }
 
-    pub fn slide_mut(&mut self, direction: &Direction) -> Result<(&mut Self)> {
+    pub fn slide_mut(&mut self, direction: &Direction) -> Result<&mut Self> {
         if self.move_is_valid(direction) {
             self.slide_mut_unchecked(direction);
             Ok(self)

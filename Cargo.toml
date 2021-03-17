@@ -1,13 +1,14 @@
 [package]
 name = "sliding_puzzle"
 description = "A Rust crate for manipulating sliding tile puzzles."
-version = "1.0.0"
+version = "1.0.1"
 authors = ["Chris Patuzzo <chris@patuzzo.co.uk>"]
 documentation = "https://github.com/tuzz/sliding_puzzle_rust"
 homepage = "https://github.com/tuzz/sliding_puzzle_rust"
 repository = "https://github.com/tuzz/sliding_puzzle_rust"
 readme = "README.md"
 license = "MIT"
+autobenches = false
 
 [dependencies]
 lehmer = "2.0.0"
